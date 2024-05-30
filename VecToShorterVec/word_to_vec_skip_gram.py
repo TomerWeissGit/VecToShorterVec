@@ -6,31 +6,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from tensorflow import Tensor
-
-
-class SkipGramModel(nn.Module):
-    def __init__(self, vocab_size, embed_dim):
-        '''
-        The skip gram model used as a base model for word2vec and for vec2ShorterVec algorithms.
-        :param vocab_size: The number of unique words in word2vec and n observations in vec2shorterVec
-        :param embed_dim: Desired dimension for reduction
-        '''
-        super(SkipGramModel, self).__init__()
-        self.embeddings = nn.Embedding(vocab_size, embed_dim)
-        self.output_layer = nn.Linear(embed_dim, vocab_size)
-        self.log_softmax = nn.LogSoftmax(dim=1)
-
-    def forward(self, input_word) -> Tensor:
-        """
-        Given the contex word(input word) the probability of predicting the target words is return (log softmax).
-        This is used in the loss function.
-        :param input_word: index of context word
-        :return: log_softmax Tensor Object for all words given the context word.
-        """
-        embeds = self.embeddings(input_word)
-        output = self.output_layer(embeds)
-        log_probs = self.log_softmax(output)
-        return log_probs
+from skip_gram_model import SkipGramModel
 
 
 class Word2VecSkipGram:
